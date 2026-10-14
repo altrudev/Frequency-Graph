@@ -1,0 +1,97 @@
+[
+  {
+    "term": "DDC",
+    "related": "Design by contract / constraint-driven verification",
+    "definition": "Project methodology for expressing constraints and checking observable behavior."
+  },
+  {
+    "term": "Frequency / FDDCRF-EVO",
+    "related": "Policy-governed execution assurance",
+    "definition": "Governance and verification design; this public project does not include private Frequency runtime."
+  },
+  {
+    "term": "Authority Envelope",
+    "related": "Scoped authorization context",
+    "definition": "Limits on actor, resources, time and permitted actions."
+  },
+  {
+    "term": "Capability Lattice",
+    "related": "Capability-based access control",
+    "definition": "Relationships among permitted capabilities and scopes."
+  },
+  {
+    "term": "Policy IR",
+    "related": "Policy intermediate representation",
+    "definition": "Structured policy representation for evaluation."
+  },
+  {
+    "term": "Guardian",
+    "related": "Reference monitor / policy enforcement point",
+    "definition": "Enforcement of action boundaries."
+  },
+  {
+    "term": "Action Gateway",
+    "related": "Policy enforcement point",
+    "definition": "Mediated action dispatch."
+  },
+  {
+    "term": "Reasoning Gateway",
+    "related": "Decision provenance / mediation",
+    "definition": "Separates recommendations from authorized decisions."
+  },
+  {
+    "term": "Credential Broker",
+    "related": "Secrets management and scoped credentials",
+    "definition": "Bounded delegation of credentials."
+  },
+  {
+    "term": "Independent Observation",
+    "related": "Independent state reconciliation",
+    "definition": "Verification using a separate observation path."
+  },
+  {
+    "term": "Dual Receipts",
+    "related": "Execution and observation records",
+    "definition": "Distinct evidence of attempted execution and resulting state."
+  },
+  {
+    "term": "CounterexamplePath",
+    "related": "Violation witness",
+    "definition": "Trace illustrating how a requirement can fail."
+  },
+  {
+    "term": "EDRG",
+    "related": "Evidence-based release gate",
+    "definition": "Release decision grounded in test artifacts."
+  },
+  {
+    "term": "Edge Sprint",
+    "related": "Vertical-slice integration development",
+    "definition": "Short, end-to-end build-and-verify cycle."
+  },
+  {
+    "term": "GTS",
+    "related": "Governance conformance testing proposal",
+    "definition": "Project terminology, not an adopted industry standard."
+  },
+  {
+    "term": "Impact Simulation",
+    "related": "Dependency reachability analysis",
+    "definition": "Hypothetical downstream effects; not a proof of runtime failure."
+  },
+  {
+    "term": "Graph Poisoning",
+    "related": "Knowledge-base integrity attack",
+    "definition": "Malicious or incorrect relationship data."
+  },
+  {
+    "term": "Provenance",
+    "related": "Data lineage",
+    "definition": "Origin and transformations of evidence."
+  },
+  {
+    "term": "FalkorDB Graph",
+    "related": "Property graph",
+    "definition": "Nodes and directed typed relationships queried using Cypher."
+  }
+]
