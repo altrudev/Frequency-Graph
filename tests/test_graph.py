@@ -13,7 +13,7 @@ class GraphTests(unittest.TestCase):
         self.assertEqual(_read(io.BytesIO(b"*2\r\n:5\r\n$3\r\nhey\r\n")),[5,"hey"])
         with self.assertRaises(GraphError): _read(io.BytesIO(b"nonsense\r\n"))
     def test_impact_is_not_authorization(self):
-        with patch("app.graph._rows",side_effect=[[["id","Identity"]],[["billing","Billing"]]]):
+        with patch("app.graph.query",return_value=[]), patch("app.graph._rows",side_effect=[[["id","Identity"]],[["billing","Billing"]]]):
             result=impact("identity")
         self.assertFalse(result["dispatched"])
         self.assertEqual(result["authorization"],"NOT_EVALUATED")
