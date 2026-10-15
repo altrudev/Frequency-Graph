@@ -50,6 +50,11 @@ Source files are Apache-2.0, including the complete license in [LICENSE](LICENSE
 
 See [About](docs/ABOUT.md), [Glossary](docs/GLOSSARY.md), [Security](SECURITY.md) and [Contributing](CONTRIBUTING.md).
 
+
+## Stable Altru.dev workspace (2026-10-14)
+
+The first-party interactive workspace is accessible at [altru.dev/frequency-graph/workspace](https://altru.dev/frequency-graph/workspace). WHC serves a **read-only exported snapshot** of the live FalkorDB synthetic graph (24 nodes, 30 relationships), with deterministic browser-side investigation, hypothetical simulation, evidence lookup, and local browser history. It does **not** currently make live database queries from WHC; the VPS continues to serve the separate live graph API. Snapshot updates require explicit regeneration and publication through the existing authenticated site-operator transaction. The fixed first-party URL replaces reliance on the ephemeral Quick Tunnel for judge-facing navigation. The full browser-based adversarial gate and automated snapshot-sync pipeline remain pending.
+
 ## EDRG evidence
 
 On 2026-10-14, the isolated VPS unit and live-database integration suite passed **5/5** tests, including graph seeding and dependency impact retrieval against a rootless Podman FalkorDB instance. The local HTTP health, graph, HTML and JS endpoints returned successful responses. These checks do **not** constitute public HTTPS, browser, persistence, concurrency or full adversarial acceptance.
