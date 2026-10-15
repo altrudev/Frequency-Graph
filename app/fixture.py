@@ -1,0 +1,27 @@
+"""Fictional company graph with transparent, synthetic documentary provenance."""
+RECORDS = [
+('identity','Identity Service','security','ADR-001','Identity boundary defines sign-in and token issuance.'),
+('billing','Billing API','service','ADR-002','Billing validates identity and delegates settlement.'),
+('portal','Customer Portal','web','ADR-003','Portal relies on gateway and identity.'),
+('reporting','Reporting','service','ADR-004','Reporting aggregates billing data.'),
+('ledger','Ledger Store','data','ADR-005','Ledger persists settlement records.'),
+('gateway','API Gateway','network','ADR-006','Gateway routes authorized frontend requests.'),
+('checkout','Checkout','web','ADR-007','Checkout uses billing, fraud and inventory.'),
+('fraud','Fraud Detection','security','ADR-008','Fraud signals participate in payment acceptance.'),
+('inventory','Inventory API','service','ADR-009','Inventory API coordinates stock reservations.'),
+('catalog','Product Catalog','data','ADR-010','Catalog provides item descriptions and prices.'),
+('orders','Order Service','service','ADR-011','Orders records purchased products and state.'),
+('notification','Notifications','service','ADR-012','Notifications emits user transaction updates.'),
+('email','Email Delivery','external','ADR-013','Email adapter delivers messages to synthetic recipients.'),
+('audit','Audit Log','data','ADR-014','Audit service stores synthetic change events.'),
+('warehouse','Analytics Warehouse','data','ADR-015','Warehouse stores aggregated reporting data.'),
+('admin','Operations Console','web','ADR-016','Ops console views audit and reporting context.'),
+('pricing','Pricing Engine','service','ADR-017','Pricing engine calculates offer adjustments.'),
+('feature','Feature Flags','config','ADR-018','Feature flags control release exposure.'),
+('search','Search API','service','ADR-019','Search queries catalog index.'),
+('index','Search Index','data','ADR-020','Index supports query retrieval.'),
+('shipping','Shipping API','service','ADR-021','Shipping maintains delivery state.'),
+('payments','Payment Connector','external','ADR-022','Connector simulates an external payment processor.'),
+('risk','Risk Rules','config','ADR-023','Risk rules tune fraud evaluation.'),
+('session','Session Store','data','ADR-024','Session state supports identity flows.')]
+EDGES=[('billing','identity'),('portal','identity'),('portal','gateway'),('gateway','identity'),('reporting','billing'),('billing','ledger'),('checkout','billing'),('checkout','fraud'),('checkout','inventory'),('checkout','pricing'),('fraud','risk'),('fraud','identity'),('inventory','catalog'),('orders','billing'),('orders','shipping'),('notification','email'),('orders','notification'),('reporting','warehouse'),('admin','reporting'),('admin','audit'),('admin','identity'),('pricing','catalog'),('pricing','feature'),('search','index'),('index','catalog'),('portal','search'),('portal','feature'),('billing','payments'),('identity','session'),('shipping','orders')]

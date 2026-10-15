@@ -75,9 +75,19 @@ def impact(component_id):
             "classification":"POTENTIAL_IMPACT","authorization":"NOT_EVALUATED","dispatched":False}
 
 def seed():
-    nodes = [("identity","Identity Service","security"),("billing","Billing API","service"),("portal","Customer Portal","web"),("reporting","Reporting","service"),("ledger","Ledger Store","data"),("gateway","API Gateway","network")]
-    for ident, name, kind in nodes:
-        query(f"MERGE (n:Component {{id:'{ident}'}}) SET n.name='{name}',n.kind='{kind}'", readonly=False)
-    for source, target in [("billing","identity"),("portal","identity"),("portal","gateway"),("gateway","identity"),("reporting","billing"),("billing","ledger")]:
-        query(f"MATCH (a:Component {{id:'{source}'}}),(b:Component {{id:'{target}'}}) MERGE (a)-[:DEPENDS_ON]->(b)", readonly=False)
+    from .fixture import RECORDS, EDGES
+    for ident,name,kind,evidence,note in RECORDS:
+        safe_note=note.replace("'", "\\'")
+        query(f"MERGE (n:Component {{id:'{ident}'}}) SET n.name='{name}',n.kind='{kind}',n.evidence='{evidence}',n.note='{safe_note}'",readonly=False)
+    for source,target in EDGES:
+        query(f"MATCH (a:Component {{id:'{source}'}}),(b:Component {{id:'{target}'}}) MERGE (a)-[:DEPENDS_ON]->(b)",readonly=False)
     return snapshot()
+
+def evidence(component_id):
+    component_id=validate_id(component_id)
+    rows=_rows(query(f"MATCH (n:Component {{id:'{component_id}'}}) RETURN n.id,n.name,n.evidence,n.note LIMIT 1"))
+    if not rows: return None
+    row=rows[0]
+    return {'component':row[0],'name':row[1],'source_id':row[2], 'excerpt':row[3],
+            'source_class':'SYNTHETIC_ADR','verification':'FIXTURE_RECORD_ONLY',
+            'disclaimer':'Synthetic rationale is not independent proof of production behavior.'}

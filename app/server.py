@@ -4,7 +4,7 @@ import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
-from .graph import GraphError, snapshot, impact, query
+from .graph import GraphError, snapshot, impact, query, evidence
 from .investigation import investigation, simulate_edge_removal
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -27,6 +27,10 @@ class Handler(BaseHTTPRequestHandler):
                 query("RETURN 1 AS ok")
                 return self._json(200,{"status":"ok","database":"connected"})
             if url.path=="/api/graph": return self._json(200,snapshot())
+            if url.path=="/api/evidence":
+                ident=parse_qs(url.query).get("id",[""])[0]
+                result=evidence(ident)
+                return self._json(200 if result else 404,result or {"error":"Component not found"})
             if url.path=="/api/investigate":
                 ident=parse_qs(url.query).get("id",[""])[0]
                 result=investigation(snapshot(),ident)
