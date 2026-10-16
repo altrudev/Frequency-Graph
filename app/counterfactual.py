@@ -1,5 +1,6 @@
 """Graph-native counterfactual scenario: no public mutation or model inference."""
-from .graph import query, _rows, validate_id, GraphError
+from .graph import query, _rows, validate_id, GraphError, snapshot
+from .investigation import investigation
 
 SCENARIO = 'identity-outage-001'
 
@@ -26,9 +27,11 @@ def investigate_scenario(scenario_id=SCENARIO):
     affected=_rows(query("MATCH (s:Scenario {id:'identity-outage-001'})-[:TARGETS]->(n:Component)<-[:DEPENDS_ON*1..6]-(c:Component) RETURN DISTINCT c.id,c.name ORDER BY c.id LIMIT 100"))
     linked=_rows(query("MATCH (s:Scenario {id:'identity-outage-001'})-[:CHALLENGES]->(d:Decision)-[r:SUPPORTED_BY|QUALIFIED_BY]->(e:Evidence) RETURN d.id,d.title,type(r),e.id,e.source,e.summary ORDER BY e.id LIMIT 20"))
     memory=_rows(query("MATCH (m:Investigation)-[:EXAMINES]->(s:Scenario {id:'identity-outage-001'}) RETURN m.id,m.status LIMIT 10"))
+    traced=investigation(snapshot(),target)
+    path_by_source={x['source']:x['ids'] for x in traced['paths']}
     # Existing dependency edges remain explicitly classified as topology, not incidents.
     return {'scenario':{'id':sid,'title':title,'target':target,'target_name':targetname},
-       'affected':[{'id':a,'name':n} for a,n in affected],
+       'affected':[{'id':a,'name':n,'path':path_by_source.get(a,[])} for a,n in affected],
        'evidence':[{'decision':d,'decision_title':t,'relation':rel,'id':eid,'source':src,'summary':summary} for d,t,rel,eid,src,summary in linked],
        'memory':[{'id':a,'status':b} for a,b in memory],
        'classification':'GRAPH_DERIVED_SYNTHETIC_COUNTERFACTUAL','dispatched':False,
