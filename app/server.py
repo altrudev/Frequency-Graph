@@ -67,7 +67,24 @@ class Handler(BaseHTTPRequestHandler):
         except (GraphError,OSError): return self._json(503,{"error":"Graph service unavailable"})
         except BrokenPipeError: pass
     def do_HEAD(self): return self.do_GET()
-    def do_POST(self): return self._json(405,{"error":"Public mutation and action execution are disabled"})
+    def do_POST(self):
+        # Intentionally inaccessible through the public Caddy allowlist.
+        if urlsplit(self.path).path!='/api/owner/episode':
+            return self._json(405,{"error":"Public mutation and action execution are disabled"})
+        from .factory_write import create_owned_episode
+        try:
+            size=int(self.headers.get('Content-Length','0'))
+            if not 0<size<=4096:return self._json(413,{"error":"Invalid request size"})
+            if self.headers.get('Content-Type','').split(';')[0].strip()!='application/json':
+                return self._json(415,{"error":"JSON required"})
+            body=json.loads(self.rfile.read(size))
+            bearer=self.headers.get('Authorization','')
+            if not bearer.startswith('Bearer '):raise PermissionError('Bearer token required')
+            outcome=create_owned_episode(body,bearer[7:])
+            return self._json(201 if outcome['created'] else 200,outcome)
+        except (PermissionError,):return self._json(403,{"error":"Unauthorized"})
+        except (ValueError,TypeError,json.JSONDecodeError):return self._json(400,{"error":"Invalid episode request"})
+        except (GraphError,OSError):return self._json(503,{"error":"Persistence unavailable"})
 
 def serve():
     ThreadingHTTPServer((os.getenv("FG_BIND","127.0.0.1"),int(os.getenv("PORT","8080"))),Handler).serve_forever()
