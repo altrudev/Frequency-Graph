@@ -5,6 +5,7 @@ from .constructor import read_result
 from .factory import read as factory_read
 from .factory_economics import estimate
 from .factory_memory import list_experiments
+from .factory_episode import history as episode_history, read_episode
 
 SCENARIO = 'identity-outage-001'
 
@@ -41,6 +42,8 @@ def investigate_scenario(scenario_id=SCENARIO):
        'factory':factory_read(),
        'factory_estimate_reference':estimate(),
        'factory_recorded_experiments':list_experiments(),
+       'factory_agent_memory':episode_history(),
+       'factory_memory_comparison':{'before':read_episode('FACTORY-MEMORY-BASE-001'),'after':read_episode('FACTORY-MEMORY-REVISION-001')},
        'evidence':[{'decision':d,'decision_title':t,'relation':rel,'id':eid,'source':src,'summary':summary} for d,t,rel,eid,src,summary in linked],
        'memory':[{'id':a,'status':b} for a,b in memory],
        'classification':'GRAPH_DERIVED_SYNTHETIC_COUNTERFACTUAL','dispatched':False,
