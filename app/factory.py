@@ -1,7 +1,7 @@
 """Synthetic, operator-seeded manufacturing graph. Public reads only."""
 from .graph import _rows, query
 NODES=[('sugar','Sugar','ingredient',0),('strawberry','Strawberry','flavor',0),('lemon','Lemon','flavor',0),('pink','Pink pigment','color',0),('yellow','Yellow pigment','color',0),('mixer','Mixing bowl','machine',1),('cooker','Cooking','machine',2),('molder','Jelly bean shapes','machine',3),('coater','Coating','machine',4),('pack','Packaging','machine',5),('out','Finished jelly beans','output',6),('apple','Apple','flavor',0),('green','Green pigment','color',0),('quality','Quality inspection','inspection',5),('warehouse','Ingredient storage','storage',0)]
-LINKS=[('sugar','mixer'),('strawberry','mixer'),('pink','mixer'),('mixer','cooker'),('cooker','molder'),('molder','coater'),('coater','pack'),('pack','out')]
+LINKS=[('warehouse','sugar'),('sugar','mixer'),('strawberry','mixer'),('pink','mixer'),('mixer','cooker'),('cooker','molder'),('molder','coater'),('coater','quality'),('quality','pack'),('pack','out')]
 def seed():
  for ident,name,kind,stage in NODES:
   query(f"MERGE (n:FactoryNode {{id:'{ident}'}}) SET n.name='{name}', n.kind='{kind}',n.stage={stage}",readonly=False)

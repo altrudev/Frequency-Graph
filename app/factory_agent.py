@@ -12,9 +12,9 @@ def investigate(quantity=5000,stock_kg=10.0):
     graph=read()
     ids={n['id'] for n in graph['nodes']}
     edges={(e['from'],e['to']) for e in graph['edges']}
-    chain=['mixer','cooker','molder','coater','pack','out']
+    chain=['mixer','cooker','molder','coater','quality','pack','out']
     linked=all((a,b) in edges for a,b in zip(chain,chain[1:]))
-    formula=('sugar','mixer') in edges and sum((v,'mixer') in edges for v in ('lemon','strawberry','apple'))==1 and sum((v,'mixer') in edges for v in ('pink','yellow','green'))==1
+    formula=('warehouse','sugar') in edges and ('sugar','mixer') in edges and sum((v,'mixer') in edges for v in ('lemon','strawberry','apple'))==1 and sum((v,'mixer') in edges for v in ('pink','yellow','green'))==1
     if not linked or not formula or not {'sugar','strawberry','lemon','pink','yellow','mixer','cooker','molder','coater','pack','out'}.issubset(ids): raise ValueError('Graph configuration is not a complete reproducible factory')
     # Capacities are attached to the corresponding graph stages, independently read from FalkorDB.
     rows=_rows(query("MATCH (n:FactoryNode) WHERE n.id IN ['cooker','molder','pack'] RETURN n.id,n.stage,n.capacity ORDER BY n.id"))
