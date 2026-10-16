@@ -11,3 +11,5 @@
 .experiment-tools{display:flex;align-items:center;justify-content:space-between;gap:10px}.experiment-tools h3{margin:14px 0}.saved-experiments{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}.saved-experiments button{border:1px solid #d7c6f6;background:#faf5ff;border-radius:11px;padding:10px 14px;color:#684d97;font-weight:700;cursor:pointer}.saved-experiments span{font-size:12px;color:#8e829d}
 
 .official-logo{width:99px;height:auto;display:block;object-fit:contain}.studio-wordmark{font-size:10px;font-weight:850;letter-spacing:1.3px;color:#6255a6}.brand{gap:7px}.batch-analysis+.batch-analysis{margin-top:9px;background:#edf9f4;border-color:#d3e9dd}@media(max-width:680px){.official-logo{width:73px}.studio-wordmark{font-size:7px}}
+
+#graph-archive{font-size:11px;color:#8b78a3;margin:12px 0}
