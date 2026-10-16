@@ -28,3 +28,14 @@
 .memory-panel{background:linear-gradient(135deg,#e6f6fc,#f2edff);border:1px solid #b9dbe9;border-radius:12px;padding:13px;margin:12px 0;font-size:12px;line-height:1.6}.memory-panel strong{color:#225278}.memory-panel p{font-size:12px;margin:7px 0;color:#4c5474}
 
 @media(min-width:1101px){.scroll{height:620px}#factory{height:620px}}
+
+
+/* Canvas is a fixed-coordinate engineering surface: never squeeze its viewBox
+   into the parent column. Pan with the native scroll container instead. */
+.canvas-panel .scroll{height:640px!important;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-color:#ad91ef #f3effb}
+.canvas-panel #factory{display:block;width:1710px!important;min-width:1710px!important;max-width:none!important;height:930px!important;min-height:930px!important;touch-action:pan-x pan-y;flex:none}
+#factory .node .name{font-size:14px;font-weight:800}
+#factory .node .kind{font-size:10.5px}
+#factory .stage{font-size:13px;letter-spacing:1.6px}
+.canvas-scroll-hint{padding:8px 22px 12px;color:#7052a7;font-size:12px;font-weight:700;background:#faf6ff;border-top:1px solid #ece1fc}
+@media(max-width:690px){.canvas-panel .scroll{height:545px!important}.canvas-panel #factory{width:1710px!important;height:930px!important}}
