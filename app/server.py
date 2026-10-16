@@ -6,6 +6,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 from .graph import GraphError, snapshot, impact, query, evidence
 from .investigation import investigation, simulate_edge_removal
+from .counterfactual import investigate_scenario
 
 ROOT = Path(__file__).resolve().parent.parent
 class Handler(BaseHTTPRequestHandler):
@@ -27,6 +28,9 @@ class Handler(BaseHTTPRequestHandler):
                 query("RETURN 1 AS ok")
                 return self._json(200,{"status":"ok","database":"connected"})
             if url.path=="/api/graph": return self._json(200,snapshot())
+            if url.path=="/api/scenario":
+                result=investigate_scenario(parse_qs(url.query).get('id',['identity-outage-001'])[0])
+                return self._json(200 if result else 404,result or {'error':'Scenario not found'})
             if url.path=="/api/evidence":
                 ident=parse_qs(url.query).get("id",[""])[0]
                 result=evidence(ident)
