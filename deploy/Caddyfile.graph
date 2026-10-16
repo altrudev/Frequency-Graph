@@ -1,0 +1,18 @@
+graph.altru.dev {
+    encode zstd gzip
+    header {
+        Strict-Transport-Security "max-age=31536000"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "no-referrer"
+        Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+        -Server
+    }
+    @allowed {
+        path / /brain.html /brain.js /brain.css /api/health /api/scenario /api/memory
+        method GET HEAD
+    }
+    handle @allowed {
+        reverse_proxy 127.0.0.1:18080
+    }
+    respond "Not found" 404
+}
