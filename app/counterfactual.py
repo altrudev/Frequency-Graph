@@ -32,6 +32,7 @@ def investigate_scenario(scenario_id=SCENARIO):
     # Existing dependency edges remain explicitly classified as topology, not incidents.
     return {'scenario':{'id':sid,'title':title,'target':target,'target_name':targetname},
        'affected':[{'id':a,'name':n,'path':path_by_source.get(a,[])} for a,n in affected],
+       'topology':snapshot(),
        'evidence':[{'decision':d,'decision_title':t,'relation':rel,'id':eid,'source':src,'summary':summary} for d,t,rel,eid,src,summary in linked],
        'memory':[{'id':a,'status':b} for a,b in memory],
        'classification':'GRAPH_DERIVED_SYNTHETIC_COUNTERFACTUAL','dispatched':False,
