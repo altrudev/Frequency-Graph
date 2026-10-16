@@ -20,7 +20,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("X-Content-Type-Options","nosniff")
         self.send_header("Content-Security-Policy","default-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'")
         self.end_headers()
-        self.wfile.write(data)
+        if self.command != "HEAD": self.wfile.write(data)
     def _json(self, status, content):
         self._headers("application/json; charset=utf-8",json.dumps(content).encode(),status)
     def do_GET(self):
@@ -66,6 +66,7 @@ class Handler(BaseHTTPRequestHandler):
         except ValueError as exc: return self._json(400,{"error":str(exc)})
         except (GraphError,OSError): return self._json(503,{"error":"Graph service unavailable"})
         except BrokenPipeError: pass
+    def do_HEAD(self): return self.do_GET()
     def do_POST(self): return self._json(405,{"error":"Public mutation and action execution are disabled"})
 
 def serve():
