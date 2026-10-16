@@ -54,9 +54,9 @@ class Handler(BaseHTTPRequestHandler):
                 return self._json(200,{"name":"Frequency Graph","creator":"Val Rukhaylo / Altru.dev","mode":"synthetic demonstration","ai_model":"none","authorization":"not implemented; no actions dispatched","license":"Apache-2.0"})
             if url.path=="/api/glossary":
                 return self._json(200,json.loads((ROOT/"docs/glossary.json").read_text()))
-            if url.path in ("/","/index.html","/style.css","/main.js"):
+            if url.path in ("/","/index.html","/style.css","/main.js","/brain.html","/brain.css","/brain.js"):
                 name="index.html" if url.path=="/" else url.path[1:]
-                mime={"index.html":"text/html","style.css":"text/css","main.js":"text/javascript"}[name]
+                mime={"index.html":"text/html","style.css":"text/css","main.js":"text/javascript","brain.html":"text/html","brain.css":"text/css","brain.js":"text/javascript"}[name]
                 return self._headers(mime+"; charset=utf-8",(ROOT/"static"/name).read_bytes())
             return self._json(404,{"error":"Not found"})
         except ValueError as exc: return self._json(400,{"error":str(exc)})
