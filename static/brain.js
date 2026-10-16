@@ -38,3 +38,9 @@ init();
 
 $('disconnect').addEventListener('click',()=>{if(selectedEdge)disconnect(selectedEdge.a,selectedEdge.b)});
 document.addEventListener('keydown',event=>{if((event.key==='Delete'||event.key==='Backspace')&&selectedEdge&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)){event.preventDefault();disconnect(selectedEdge.a,selectedEdge.b)}});
+
+const EXPERIMENT_KEY='frequency_factory_experiments_v1';
+function saved(){try{const a=JSON.parse(localStorage.getItem(EXPERIMENT_KEY)||'[]');return Array.isArray(a)?a.slice(-8):[]}catch{return[]}}
+function showSaved(){const area=$('saved-experiments');area.replaceChildren();const all=saved();if(!all.length){const t=document.createElement('span');t.textContent='No saved versions yet. Save a recipe and compare it later.';area.append(t);return}for(const e of all){const b=document.createElement('button');b.textContent=e.name+' · '+e.summary;b.title='Restore this saved experiment';b.addEventListener('click',()=>{if(!e.model?.nodes?.length||!e.model?.edges)return;checkpoint();model=copy(e.model);$('strength').value=e.strength;$('finish').value=e.finish;$('batch').value=e.batch;$('speed').value=e.speed;refresh();logEvent('Restored saved recipe: '+e.name)});area.append(b)}}
+$('save-experiment').addEventListener('click',()=>{if(!model)return;const all=saved(),p=compute(),name='Version '+(all.length+1);all.push({name,summary:brief(p),model:copy(model),strength:$('strength').value,finish:$('finish').value,batch:$('batch').value,speed:$('speed').value});try{localStorage.setItem(EXPERIMENT_KEY,JSON.stringify(all.slice(-8)));showSaved();logEvent('Saved '+name+' to this browser only.')}catch{notice('Unable to save locally: browser storage is unavailable.')}});
+showSaved();
