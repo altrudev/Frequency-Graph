@@ -22,3 +22,12 @@ This is a **synthetic, deterministic, graph-native** evidence walkthrough, not a
 - Add an append-only authenticated investigation event model, provenance integrity and invalidation on graph change, then independently test memory and contradiction updates.
 - Adversarial tests, GUI interactions, end-to-end wiring and release evidence with full pinned hashes. Record independent observation distinctly from query execution.
 - Recheck current hackathon rules, deadline, eligible work window, and submission deliverables before claiming the entry is complete.
+
+## Memory revision implementation (2026-10-15)
+
+- `app/memory.py`: fixed, operator-seeded `EvidenceRevision` graph vertices and typed links from `Investigation` (`REVIEWED_REVISION`) and `Decision` (`REVISED_BY`). The read-only `GET /api/memory` endpoint queries those records and marks the conclusion qualified when a qualifying revision is present.
+- Two persisted graph revisions: `REV-IDENTITY-BASELINE` and `REV-IDENTITY-QUALIFIED`. Seeding is idempotent; no public mutation interface is exposed.
+- `FG_LIVE_TEST=1 FALKORDB_PORT=16379 python3 -m unittest discover -s tests -q` passed 28 tests, including graph-backed revision read, repeat-seed idempotence, and disconnected-database failure.
+- Altru.dev `/frequency-graph/counterfactual` publishes the new evidence-revision results, but remains an **exported report**, not a live graph querying client.
+- **Unresolved hosting prerequisite:** `graph.altru.dev` has no DNS record. Do not expose the private database port, reuse unrelated product APIs, or claim a live first-party browser integration until a stable domain/secure proxy is configured and end-to-end browser actions are independently accepted.
+- No claims of autonomous agent memory, continuous evidence ingestion, runtime outage prediction, or production remediation are supported by the current implementation.
