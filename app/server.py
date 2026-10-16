@@ -55,7 +55,7 @@ class Handler(BaseHTTPRequestHandler):
             if url.path=="/api/glossary":
                 return self._json(200,json.loads((ROOT/"docs/glossary.json").read_text()))
             if url.path in ("/","/index.html","/style.css","/main.js","/brain.html","/brain.css","/brain.js"):
-                name="index.html" if url.path=="/" else url.path[1:]
+                name="brain.html" if url.path=="/" else url.path[1:]
                 mime={"index.html":"text/html","style.css":"text/css","main.js":"text/javascript","brain.html":"text/html","brain.css":"text/css","brain.js":"text/javascript"}[name]
                 return self._headers(mime+"; charset=utf-8",(ROOT/"static"/name).read_bytes())
             return self._json(404,{"error":"Not found"})
