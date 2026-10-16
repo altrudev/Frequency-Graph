@@ -54,3 +54,11 @@
 #factory .node .name{font-size:12.5px;font-weight:800}
 #factory .node .kind{font-size:9.5px}
 #factory .stage{font-size:12px;letter-spacing:1.3px}
+
+/* Layout acceptance: eight ingredient choices stacked in a clear source lane;
+   processing cards fit within viewport and never overlap input/output ports. */
+@media(min-width:851px){.canvas-panel #factory{aspect-ratio:1210/755!important}.canvas-panel .scroll{overflow:hidden!important}}
+#factory .node .name{font-size:11.8px!important;letter-spacing:-.15px}
+#factory .node .kind{font-size:8.8px!important}
+#factory .node .icon{font-size:21px!important}
+#factory .stage{font-size:11.5px!important}
