@@ -8,6 +8,7 @@ from .graph import GraphError, snapshot, impact, query, evidence
 from .investigation import investigation, simulate_edge_removal
 from .counterfactual import investigate_scenario
 from .memory import history
+from .factory_agent import investigate as investigate_factory
 
 ROOT = Path(__file__).resolve().parent.parent
 class Handler(BaseHTTPRequestHandler):
@@ -32,7 +33,10 @@ class Handler(BaseHTTPRequestHandler):
             if url.path=="/api/memory":
                 return self._json(200,history(parse_qs(url.query).get('id',['INV-IDENTITY-001'])[0]))
             if url.path=="/api/scenario":
-                result=investigate_scenario(parse_qs(url.query).get('id',['identity-outage-001'])[0])
+                args=parse_qs(url.query)
+                result=investigate_scenario(args.get('id',['identity-outage-001'])[0])
+                if result and args.get('factory_agent',['0'])[0]=='1':
+                    result['factory_agent']=investigate_factory(int(args.get('quantity',['5000'])[0]),float(args.get('stock',['10'])[0]))
                 return self._json(200 if result else 404,result or {'error':'Scenario not found'})
             if url.path=="/api/evidence":
                 ident=parse_qs(url.query).get("id",[""])[0]
