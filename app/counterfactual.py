@@ -3,6 +3,7 @@ from .graph import query, _rows, validate_id, GraphError, snapshot
 from .investigation import investigation
 from .constructor import read_result
 from .factory import read as factory_read
+from .factory_economics import estimate
 
 SCENARIO = 'identity-outage-001'
 
@@ -37,6 +38,7 @@ def investigate_scenario(scenario_id=SCENARIO):
        'topology':snapshot(),
        'construction':read_result(),
        'factory':factory_read(),
+       'factory_estimate_reference':estimate(),
        'evidence':[{'decision':d,'decision_title':t,'relation':rel,'id':eid,'source':src,'summary':summary} for d,t,rel,eid,src,summary in linked],
        'memory':[{'id':a,'status':b} for a,b in memory],
        'classification':'GRAPH_DERIVED_SYNTHETIC_COUNTERFACTUAL','dispatched':False,
