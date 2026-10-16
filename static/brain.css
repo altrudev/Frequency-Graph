@@ -26,3 +26,5 @@
 .official-logo{width:66px;height:66px;object-fit:contain;flex:none}.studio-wordmark{display:flex;flex-direction:column;gap:3px;letter-spacing:.06em}.studio-wordmark strong{font-size:20px;line-height:1;color:#123b68;letter-spacing:-.04em}.studio-wordmark small{font-size:11px;line-height:1;color:#6177a3;letter-spacing:.42em}@media(max-width:680px){.official-logo{width:49px;height:49px}.studio-wordmark strong{font-size:14px}.studio-wordmark small{font-size:9px}}
 
 .memory-panel{background:linear-gradient(135deg,#e6f6fc,#f2edff);border:1px solid #b9dbe9;border-radius:12px;padding:13px;margin:12px 0;font-size:12px;line-height:1.6}.memory-panel strong{color:#225278}.memory-panel p{font-size:12px;margin:7px 0;color:#4c5474}
+
+@media(min-width:1101px){.scroll{height:620px}#factory{height:620px}}

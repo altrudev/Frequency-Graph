@@ -15,7 +15,7 @@ def investigate(quantity=5000,stock_kg=10.0):
     chain=['mixer','cooker','molder','coater','pack','out']
     linked=all((a,b) in edges for a,b in zip(chain,chain[1:]))
     formula=('sugar','mixer') in edges and sum((v,'mixer') in edges for v in ('lemon','strawberry'))==1 and sum((v,'mixer') in edges for v in ('pink','yellow'))==1
-    if not linked or not formula or len(ids)!=11: raise ValueError('Graph configuration is not a complete reproducible factory')
+    if not linked or not formula or not {'sugar','strawberry','lemon','pink','yellow','mixer','cooker','molder','coater','pack','out'}.issubset(ids): raise ValueError('Graph configuration is not a complete reproducible factory')
     # Capacities are attached to the corresponding graph stages, independently read from FalkorDB.
     rows=_rows(query("MATCH (n:FactoryNode) WHERE n.id IN ['cooker','molder','pack'] RETURN n.id,n.stage,n.capacity ORDER BY n.id"))
     stages={a:(int(b),int(c)) for a,b,c in rows}
