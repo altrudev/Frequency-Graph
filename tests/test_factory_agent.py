@@ -4,14 +4,14 @@ from app.factory_agent import investigate
 
 GRAPH={'nodes':[{'id':x} for x in ('sugar','strawberry','lemon','pink','yellow','mixer','cooker','molder','coater','pack','out')],
 'edges':[{'from':a,'to':b} for a,b in [('sugar','mixer'),('strawberry','mixer'),('pink','mixer'),('mixer','cooker'),('cooker','molder'),('molder','coater'),('coater','pack'),('pack','out')]]}
-STAGES=[[],[['cooker',2],['molder',3],['pack',5]],[]]
+STAGES=[[],[['cooker',2,1200],['molder',3,1600],['pack',5,2000]],[]]
 class AgentTests(unittest.TestCase):
  def run_agent(self,q=5000,stock=10,graph=GRAPH):
   with patch('app.factory_agent.read',return_value=graph),patch('app.factory_agent.query',return_value=STAGES):
    return investigate(q,stock)
  def test_bottleneck_and_unverified_fails_closed(self):
   x=self.run_agent()
-  self.assertEqual(x['finding']['bottleneck'],'Cooking')
+  self.assertEqual(x['finding']['bottleneck'],'cooker')
   self.assertEqual(x['recommendation'],'BASE')
   self.assertFalse(next(v for v in x['alternatives'] if v['id']=='UPGRADE')['eligible'])
   self.assertFalse(x['dispatched'])

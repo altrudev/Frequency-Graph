@@ -5,6 +5,8 @@ LINKS=[('sugar','mixer'),('strawberry','mixer'),('pink','mixer'),('mixer','cooke
 def seed():
  for ident,name,kind,stage in NODES:
   query(f"MERGE (n:FactoryNode {{id:'{ident}'}}) SET n.name='{name}', n.kind='{kind}',n.stage={stage}",readonly=False)
+ for ident,capacity in (('cooker',1200),('molder',1600),('pack',2000)):
+  query(f"MATCH (n:FactoryNode {{id:'{ident}'}}) SET n.capacity={capacity}",readonly=False)
  for source,target in LINKS:
   query(f"MATCH (a:FactoryNode {{id:'{source}'}}),(b:FactoryNode {{id:'{target}'}}) MERGE (a)-[:FEEDS_INTO]->(b)",readonly=False)
 def read():

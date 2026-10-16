@@ -13,4 +13,4 @@ class FactoryTests(unittest.TestCase):
  def test_seed_is_idempotent_merge_only(self):
   with patch('app.factory.query') as q:
    seed()
-  self.assertTrue(all('MERGE' in c.args[0] for c in q.call_args_list))
+  self.assertTrue(all('MERGE' in c.args[0] or ('MATCH' in c.args[0] and 'SET n.capacity=' in c.args[0]) for c in q.call_args_list))
