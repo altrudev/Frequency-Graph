@@ -8,7 +8,7 @@ from .graph import GraphError, snapshot, impact, query, evidence
 from .investigation import investigation, simulate_edge_removal
 from .counterfactual import investigate_scenario
 from .memory import history
-from .factory_agent import investigate as investigate_factory
+from .factory_context import investigate_with_memory as investigate_factory
 
 ROOT = Path(__file__).resolve().parent.parent
 class Handler(BaseHTTPRequestHandler):
